@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# deploy.sh — Run on a fresh Vultr Ubuntu 22.04 Cloud Compute instance
+# deploy.sh — Run on a fresh Ubuntu 22.04+ Cloud Compute instance
 # Usage:  bash deploy.sh
 set -euo pipefail
 
@@ -47,17 +47,17 @@ ufw allow OpenSSH
 ufw allow 'Nginx HTTP'
 ufw --force enable
 
-# Get public IP (Vultr metadata service)
-VULTR_IP=$(curl -sf http://169.254.169.254/latest/meta-data/public-ipv4 \
+# Get public IP
+PUBLIC_IP=$(curl -sf ifconfig.me \
            || hostname -I | awk '{print $1}')
 
 echo ""
 echo "✅  Sentinel API is live!"
 echo ""
-echo "   Swagger UI  →  http://${VULTR_IP}/docs"
-echo "   Health      →  http://${VULTR_IP}/health"
-echo "   Metrics     →  http://${VULTR_IP}/metrics"
-echo "   Alerts      →  http://${VULTR_IP}/alerts"
+echo "   Swagger UI  →  http://${PUBLIC_IP}/docs"
+echo "   Health      →  http://${PUBLIC_IP}/health"
+echo "   Metrics     →  http://${PUBLIC_IP}/metrics"
+echo "   Alerts      →  http://${PUBLIC_IP}/alerts"
 echo ""
 echo "   To add HTTPS:"
 echo "   apt install certbot python3-certbot-nginx -y"

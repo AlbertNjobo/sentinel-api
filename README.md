@@ -1,11 +1,11 @@
 # 🛡️ Sentinel API
 
-> Real-time server health monitoring REST API — FastAPI + SQLite, deployed on Vultr.
+> Real-time server health monitoring REST API — FastAPI + SQLite, deployed on any Ubuntu VPS.
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi)](https://fastapi.tiangolo.com)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python)](https://python.org)
 [![SQLite](https://img.shields.io/badge/SQLite-aiosqlite-003B57?logo=sqlite)](https://sqlite.org)
-[![Vultr](https://img.shields.io/badge/Deployed-Vultr-007BFC)](https://vultr.com)
+[![Ubuntu](https://img.shields.io/badge/OS-Ubuntu_22.04+-E95420?logo=ubuntu)](https://ubuntu.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Live API:** `http://<YOUR_SERVER_IP>/docs`
@@ -42,7 +42,7 @@ sentinel-api/
 │   ├── crud.py       # database operations (create/read/update/delete)
 │   └── metrics.py    # psutil wrappers for system metrics
 ├── scripts/
-│   ├── deploy.sh                # one-shot Vultr deploy
+│   ├── deploy.sh                # one-shot Ubuntu deploy
 │   ├── sentinel-api.service     # systemd unit
 │   └── nginx-sentinel.conf      # Nginx reverse proxy
 ├── requirements.txt
@@ -68,11 +68,11 @@ uvicorn app.main:app --reload
 
 ---
 
-## Deploy to Vultr
+## Deploy to a Cloud Server
 
 ### 1. Create instance
 
-- **Vultr dashboard** → Create → Cloud Compute → Shared CPU
+- **Any Cloud Provider** (AWS, DigitalOcean, Linode, etc.) → Create instance
 - Image: **Ubuntu 22.04 LTS**
 - Plan: **$6/mo (1 vCPU · 1 GB RAM)**
 - Note the public IP
@@ -144,7 +144,7 @@ curl -X POST http://<YOUR_SERVER_IP>/alerts \
 | System metrics | psutil |
 | Reverse proxy | Nginx |
 | Process manager | systemd |
-| Cloud | Vultr Cloud Compute |
+| OS | Ubuntu 22.04 LTS+ |
 
 
 
