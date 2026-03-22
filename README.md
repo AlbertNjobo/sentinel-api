@@ -8,7 +8,7 @@
 [![Vultr](https://img.shields.io/badge/Deployed-Vultr-007BFC)](https://vultr.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**Live API:** `http://66.42.82.73/docs`
+**Live API:** `http://<YOUR_SERVER_IP>/docs`
 
 ---
 
@@ -80,7 +80,7 @@ uvicorn app.main:app --reload
 ### 2. SSH and deploy
 
 ```bash
-ssh root@66.42.82.73
+ssh root@<YOUR_SERVER_IP>
 
 git clone https://github.com/AlbertNjobo/sentinel-api /opt/sentinel-api
 
@@ -100,8 +100,8 @@ The script handles everything end-to-end:
 ### 3. Verify
 
 ```bash
-curl http://66.42.82.73/health
-curl http://66.42.82.73/metrics
+curl http://<YOUR_SERVER_IP>/health
+curl http://<YOUR_SERVER_IP>/metrics
 ```
 
 ### 4. Add HTTPS (optional but recommended)
@@ -117,7 +117,7 @@ certbot --nginx -d yourdomain.com
 ## Example: Create an alert
 
 ```bash
-curl -X POST http://66.42.82.73/alerts \
+curl -X POST http://<YOUR_SERVER_IP>/alerts \
   -H "Content-Type: application/json" \
   -H "X-API-Key: $SENTINEL_API_KEY" \
   -d '{
@@ -146,47 +146,7 @@ curl -X POST http://66.42.82.73/alerts \
 | Process manager | systemd |
 | Cloud | Vultr Cloud Compute |
 
----
 
-## Devpost Description
-
-> Copy-paste this into the Devpost submission form.
-
-### Inspiration
-
-Managing servers in resource-constrained environments — like those common across Zimbabwe and Southern Africa — means you often can't afford heavyweight monitoring stacks like Datadog or New Relic. Sentinel API is a lightweight, self-hostable alternative that gives you real-time visibility into server health without the SaaS price tag.
-
-### What it does
-
-Sentinel API is a RESTful server health monitor with two core capabilities:
-
-1. **Live system metrics** — query CPU (per-core), memory, swap, disk, and network I/O from any HTTP client. The `/health` endpoint returns a `healthy`/`degraded` status suitable for load balancers and uptime monitors.
-
-2. **Persistent alert management** — create, filter, resolve, and delete alerts via a full CRUD API. Alerts are stored in SQLite and survive server restarts, making it a real operational tool rather than a toy demo.
-
-### How I built it
-
-- **FastAPI** for the async HTTP layer — chosen for its automatic OpenAPI docs, Pydantic validation, and async-native design
-- **SQLAlchemy 2.0 async + aiosqlite** for non-blocking SQLite persistence
-- **psutil** for cross-platform system metric collection
-- **Uvicorn** as the ASGI server, managed by **systemd** for auto-restart
-- **Nginx** as a reverse proxy, **ufw** for firewall rules
-- Deployed to a **Vultr Cloud Compute** $6/mo Ubuntu 22.04 instance
-
-### Challenges
-
-Getting SQLAlchemy's async session lifecycle to integrate cleanly with FastAPI's dependency injection system required careful attention — particularly ensuring the lifespan context manager initialised the database before the first request hit.
-
-### What I learned
-
-FastAPI's `lifespan` pattern is the right way to handle startup/shutdown logic in modern async apps — much cleaner than the deprecated `@app.on_event` approach. I also deepened my understanding of systemd hardening options (`NoNewPrivileges`, `PrivateTmp`).
-
-### What's next
-
-- API key authentication middleware
-- Prometheus `/metrics` endpoint for Grafana integration
-- Alert webhooks (Slack/email notifications)
-- Multi-server agent that pushes metrics to a central Sentinel instance
 
 ---
 
