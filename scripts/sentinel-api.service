@@ -1,0 +1,26 @@
+[Unit]
+Description=Sentinel API — Server Health Monitor
+After=network.target
+
+[Service]
+Type=simple
+User=sentinel
+Group=sentinel
+WorkingDirectory=/opt/sentinel-api
+Environment="PATH=/opt/sentinel-api/venv/bin:/usr/bin"
+Environment="DATABASE_URL=sqlite+aiosqlite:////opt/sentinel-api/sentinel.db"
+# Set your API key here:
+# Environment="SENTINEL_API_KEY=your-secret-key"
+ExecStart=/opt/sentinel-api/venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/sentinel-api
+
+[Install]
+WantedBy=multi-user.target
