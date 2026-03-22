@@ -74,7 +74,6 @@ uvicorn app.main:app --reload
 
 - **Any Cloud Provider** (AWS, DigitalOcean, Linode, etc.) → Create instance
 - Image: **Ubuntu 22.04 LTS**
-- Plan: **$6/mo (1 vCPU · 1 GB RAM)**
 - Note the public IP
 
 ### 2. SSH and deploy
